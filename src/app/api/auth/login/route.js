@@ -1,9 +1,8 @@
-const { PrismaClient } = require('@prisma/client');
+import prisma from '@/app/lib/prisma';
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const prisma = new PrismaClient();
-const SECRET_KEY = "A5GkQcZnh0bP0b5OmYHUmmaoBo0r37Mdrq7eKitChS8=";
+const SECRET_KEY = process.env.NEXTAUTH_SECRET;
 
 export async function POST(req) {
   try {
