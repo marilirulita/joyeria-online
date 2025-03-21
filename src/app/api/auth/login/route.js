@@ -1,4 +1,4 @@
-import prisma from '@/app/lib/prisma';
+import prisma from '@/lib/prisma';
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -21,7 +21,7 @@ export async function POST(req) {
     }
 
     // Generar JWT
-    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, SECRET_KEY, {
+    const token = jwt.sign({ id: user.id, nombre: user.nombre, email: user.email, role: user.role }, SECRET_KEY, {
       expiresIn: "1h",
     });
 

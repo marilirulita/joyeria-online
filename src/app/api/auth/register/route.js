@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import prisma from "@/app/lib/prisma";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -7,7 +7,7 @@ export async function POST(req) {
     const { nombre, email, password, role, adminToken } = await req.json();
 
     // Verificar que el request venga de un admin
-    if (adminToken !== "$Admin#2025Secret!") {
+    if (adminToken !== process.env.ADMIN_SECRET) {
       return NextResponse.json({ message: "No autorizado" }, { status: 403 });
     }
 

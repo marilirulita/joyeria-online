@@ -19,7 +19,7 @@ export default function CreateUser() {
         email,
         password,
         role,
-        adminToken: "$Admin#2025Secret!", // Asegúrate de proteger esto
+        adminToken: process.env.ADMIN_SECRET, // Asegúrate de proteger esto
       }),
     });
 
