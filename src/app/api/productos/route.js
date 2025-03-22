@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-// import { NextResponse } from "next/server";
 
 export async function GET(req) {
   try {
@@ -12,9 +11,9 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
-    const { nombre, descripcion, precio, imagen } = await req.json();
+    const { nombre, descripcion, precio, imagen, stock } = await req.json();
     const nuevoProducto = await prisma.producto.create({
-      data: { nombre, descripcion, precio: parseFloat(precio), imagen },
+      data: { nombre, descripcion, precio: parseFloat(precio), imagen, stock: parseInt(stock) },
     });
     return Response.json(nuevoProducto, { status: 201 });
   } catch (error) {

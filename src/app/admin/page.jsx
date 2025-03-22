@@ -9,7 +9,7 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
   const [productos, setProductos] = useState([]);
-  // const [ventas, setVentas] = useState([]);
+  const [ventas, setVentas] = useState([]);
   const [editando, setEditando] = useState(false);
 
   // Función para cargar los productos desde la API
@@ -30,9 +30,13 @@ export default function AdminPage() {
 
     cargarProductos();
 
-    /*  fetch("/api/ventas")
-      .then((res) => res.json())
-      .then((data) => setVentas(data)); */
+    async function fetchVentas() {
+      const res = await fetch("/api/ventas");
+      const data = await res.json();
+      console.log("Ventas recibidas:", data); // 👈 Imprime los datos en la consola
+      setVentas(data);
+    }
+    fetchVentas();
   }, []);
 
   if (!isAuthenticated) {
@@ -56,6 +60,55 @@ export default function AdminPage() {
       >
         Cerrar sesión
       </button>
+
+{/* Sección de Ventas e Inventario*/}
+<div>
+        <h2 className="text-xl font-semibold">Reportes de Ventas</h2>
+        <ul>
+        {ventas.map((venta) => 
+            venta.productos.map((p) => (
+              <li key={p.producto.id} className="border-b py-2">
+              {p.producto.nombre} - Cantidad: {p.cantidad} 
+            </li>
+            ))
+          )}
+          {ventas.map((venta) => (
+            <li key={venta.id} className="border-b py-2">
+               Total: ${venta.total}
+            </li>
+          ))}
+        </ul>
+
+        <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ventas.map((venta) => 
+            venta.productos.map((p) => (
+              <tr key={p.producto.id}>
+              <td>{p.producto.nombre}</td>
+              <td>{p.cantidad}</td>
+              </tr>
+            ))
+          )}
+          {ventas.map((venta) => (
+            <tr key={venta.id}>
+              <td></td>
+              <td></td>
+              <td>${venta.total.toFixed(2)}</td>
+              <td>{new Date(venta.fecha).toLocaleDateString()}</td>
+            </tr>    
+          ))}
+        </tbody>
+      </table>
+      
+      </div> 
 
       {/* Sección de productos */}
       <div className="mb-6">
@@ -84,17 +137,6 @@ export default function AdminPage() {
         </ul>
       </div>
 
-      {/* {/* Sección de Ventas e Inventario
-      <div>
-        <h2 className="text-xl font-semibold">Reportes de Ventas</h2>
-        <ul>
-          {ventas.map((venta) => (
-            <li key={venta.id} className="border-b py-2">
-              {venta.producto} - Cantidad: {venta.cantidad} - Total: ${venta.total}
-            </li>
-          ))}
-        </ul>
-      </div> */}
     </div>
   );
 }

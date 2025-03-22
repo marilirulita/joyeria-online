@@ -19,7 +19,7 @@ const ProductoCard = ({ producto, onActualizar }) => {
       {editando ? (
         <FormularioProducto producto={producto} onActualizar={onActualizar} setEditando={setEditando} />
       ) : (
-        <div div className="border-b py-2 flex justify-between">
+        <div className="border-b py-2 flex justify-between">
           <Image
             src={producto.imagen}
             alt={producto.nombre}
@@ -30,9 +30,9 @@ const ProductoCard = ({ producto, onActualizar }) => {
           <div>
             <h2 className="text-lg font-semibold mt-2">{producto.nombre}</h2>
             <p className="text-gray-600">{producto.descripcion}</p>
-            <p className="text-xl font-bold mt-2 text-green-600">
-              ${producto.precio}
+            <p className="text-xl font-bold mt-2 text-green-600"><span>${producto.precio}</span> 
             </p>
+            <p className="text-md text-orange-500">{producto.stock} piezas</p>
           </div>
           <div className="flex flex-col">
             <button

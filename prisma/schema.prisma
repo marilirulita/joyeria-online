@@ -13,10 +13,31 @@ model Producto {
   descripcion String
   precio      Float
   imagen      String?
+  stock       Int     @default(0)
+  ventas      VentaProducto[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
+model Venta {
+  id        String   @id @default(uuid()) 
+  total     Float
+  fecha     DateTime @default(now())
+
+  productos VentaProducto[]
+}
+
+model VentaProducto {
+  id         String   @id @default(uuid()) 
+  ventaId    String
+  productoId String
+  cantidad   Int
+
+  venta      Venta    @relation(fields: [ventaId], references: [id])
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  @@unique([ventaId, productoId]) // Evita duplicados dentro de una misma venta
+}
 model Usuario {
   id       String @id @default(uuid())
   nombre   String

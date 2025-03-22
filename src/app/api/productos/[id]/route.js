@@ -5,11 +5,11 @@ import prisma from "@/lib/prisma"; // Conexión a la base de datos
 export async function PUT(req, { params }) {
   try {
     const { id } = await params;
-    const { nombre, descripcion, precio, imagen } = await req.json();
+    const { nombre, descripcion, precio, imagen, stock } = await req.json();
 
     const productoActualizado = await prisma.producto.update({
       where: { id: id },
-      data: { nombre, descripcion, precio: parseFloat(precio), imagen },
+      data: { nombre, descripcion, precio: parseFloat(precio), imagen, stock: parseInt(stock) },
     });
 
     return NextResponse.json(productoActualizado, { status: 200 });

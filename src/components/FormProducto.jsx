@@ -5,6 +5,7 @@ const FormularioProducto = ({ producto, onActualizar, setEditando }) => {
   const [descripcion, setDescripcion] = useState("");
   const [precio, setPrecio] = useState("");
   const [imagen, setImagen] = useState("");
+  const [stock, setStock] = useState("");
 
   // Si hay un producto, llenar el formulario con sus datos (modo edición)
   useEffect(() => {
@@ -13,13 +14,14 @@ const FormularioProducto = ({ producto, onActualizar, setEditando }) => {
       setDescripcion(producto.descripcion);
       setPrecio(producto.precio);
       setImagen(producto.imagen);
+      setStock(producto.stock);
     }
   }, [producto]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const datosProducto = { nombre, descripcion, precio, imagen };
+    const datosProducto = { nombre, descripcion, precio, imagen, stock };
 
     try {
       const response = await fetch(
@@ -40,6 +42,7 @@ const FormularioProducto = ({ producto, onActualizar, setEditando }) => {
         setDescripcion("");
         setPrecio("");
         setImagen("");
+        setStock("");
       } else {
         console.error("Error al actualizar el producto");
       }
@@ -78,6 +81,14 @@ const FormularioProducto = ({ producto, onActualizar, setEditando }) => {
         placeholder="URL de la imagen"
         value={imagen}
         onChange={(e) => setImagen(e.target.value)}
+        required
+        className="border p-2"
+      />
+      <input
+        type="number"
+        placeholder="Cantidad"
+        value={stock}
+        onChange={(e) => setStock(e.target.value)}
         required
         className="border p-2"
       />
