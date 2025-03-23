@@ -7,10 +7,11 @@ async function main() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      nombre: "Mar Bautista",
+      nombre: "Admin Bautista",
       email: "admin@joyeria.com",
       password: "Admin2025",
       role: "admin",
+      adminToken: "975c60456a92c092ac6d3bd9018b22a2",
     }),
   });
 

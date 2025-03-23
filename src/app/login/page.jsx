@@ -1,7 +1,8 @@
 "use client"; // Si usas App Router en Next.js 13+
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Si usas Pages Router, cambia a "next/router"
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ export default function LoginPage() {
 
     if (res.ok) {
       localStorage.setItem("token", data.token); // Guardamos el token en localStorage
-      router.push("/admin"); // Redirige al panel de administrador
+      router.push("/"); // Redirige al panel de administrador
     } else {
       setError(data.message || "Error al iniciar sesión");
     }
@@ -33,7 +34,9 @@ export default function LoginPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-4 text-center text-gray-700">Iniciar sesión</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center text-gray-700">
+          Iniciar sesión
+        </h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
@@ -63,6 +66,14 @@ export default function LoginPage() {
             Iniciar sesión
           </button>
         </form>
+        <div className="my-4 flex justify-center font-bold">
+          <Link
+            href={"/signup"}
+            className="text-green-600 hover:text-green-900"
+          >
+            Crea una cuenta!
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -1,13 +1,32 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import getUserRole from "@/utils/auth";
 
 export default function CreateUser() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
   const [message, setMessage] = useState("");
+
+  const router = useRouter();
+
+   useEffect(() => {
+      const token = getUserRole();
+  
+      if (!token) {
+        router.push("/login");
+      } else {
+        token === 'admin' ? setIsAuthenticated(true) : null
+      }
+    }, []);
+
+    if (!isAuthenticated) {
+      return <p>Cargando...</p>;
+    }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +38,7 @@ export default function CreateUser() {
         email,
         password,
         role,
-        adminToken: process.env.ADMIN_SECRET, // Asegúrate de proteger esto
+        adminToken: "975c60456a92c092ac6d3bd9018b22a2", // Asegúrate de proteger esto
       }),
     });
 

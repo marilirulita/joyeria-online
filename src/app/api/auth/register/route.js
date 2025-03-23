@@ -7,7 +7,7 @@ export async function POST(req) {
     const { nombre, email, password, role, adminToken } = await req.json();
 
     // Verificar que el request venga de un admin
-    if (adminToken !== process.env.ADMIN_SECRET) {
+    if (adminToken !== "975c60456a92c092ac6d3bd9018b22a2") {
       return NextResponse.json({ message: "No autorizado" }, { status: 403 });
     }
 
