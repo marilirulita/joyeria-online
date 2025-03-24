@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import getUserRole from "@/utils/auth";
 
 const FormularioProducto = ({ producto, onActualizar, setEditando }) => {
   const [nombre, setNombre] = useState("");
@@ -21,14 +22,17 @@ const FormularioProducto = ({ producto, onActualizar, setEditando }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const datosProducto = { nombre, descripcion, precio, imagen, stock };
+    const token = await getUserRole();
+    const datosProducto = { nombre, descripcion, precio, imagen, stock, adminToken: token };
 
     try {
       const response = await fetch(
         producto ? `/api/productos/${producto.id}` : "/api/productos",
         {
           method: producto ? "PUT" : "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json" 
+            },
           body: JSON.stringify(datosProducto),
         }
       );

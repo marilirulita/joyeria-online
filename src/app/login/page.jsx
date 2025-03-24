@@ -1,4 +1,4 @@
-"use client"; // Si usas App Router en Next.js 13+
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";

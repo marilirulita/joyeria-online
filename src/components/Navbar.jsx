@@ -21,6 +21,7 @@ export default function Navbar({ cart }) {
     await fetch("/api/auth/logout", { method: "POST" });
     localStorage.removeItem("token"); // Si guardaste el token aquí
     setRole(false);
+    router.push("/");
   };
 
   const handleLogin = () => {

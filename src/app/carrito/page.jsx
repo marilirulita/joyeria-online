@@ -26,8 +26,6 @@ export default function Carrito() {
 
   const comprar = async () => {
     setComprando(true);
-    
-    // const cliente = "Cliente Anónimo"; // Aquí podrías agregar lógica para clientes autenticados
 
     try {
       const res = await fetch("/api/ventas", {

@@ -3,11 +3,12 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
+
   try {
     const { nombre, email, password, role, adminToken } = await req.json();
 
     // Verificar que el request venga de un admin
-    if (adminToken !== "975c60456a92c092ac6d3bd9018b22a2") {
+    if (adminToken !== "admin") {
       return NextResponse.json({ message: "No autorizado" }, { status: 403 });
     }
 

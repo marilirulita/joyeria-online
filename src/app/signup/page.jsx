@@ -76,10 +76,8 @@ export default function Signup() {
         </form>
         <div className="my-4 flex justify-center font-bold">
         <Link href={"/login"} className="text-green-600 hover:text-green-900 ">Accede a tu cuenta!</Link>
-        </div>
-        
-      </div>
-      
+        </div>       
+      </div>     
     </div>
   );
 }

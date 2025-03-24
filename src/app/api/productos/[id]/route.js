@@ -5,7 +5,12 @@ import prisma from "@/lib/prisma"; // Conexión a la base de datos
 export async function PUT(req, { params }) {
   try {
     const { id } = await params;
-    const { nombre, descripcion, precio, imagen, stock } = await req.json();
+    const { nombre, descripcion, precio, imagen, stock, adminToken } = await req.json();
+
+    // Verificar que el request venga de un admin
+    if (adminToken !== "admin") {
+      return NextResponse.json({ message: "No autorizado" }, { status: 403 });
+    }
 
     const productoActualizado = await prisma.producto.update({
       where: { id: id },
