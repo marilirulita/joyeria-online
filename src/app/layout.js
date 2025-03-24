@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import { jwtDecode } from "jwt-decode";
-import { usePathname } from "next/navigation";
-import getUserRole from "@/utils/auth";
 import "./globals.css";
 
 /* export const metadata = {
@@ -14,21 +11,18 @@ import "./globals.css";
 
 export default function RootLayout({ children }) {
   const [cart, setCart] = useState([]);
-  const [role, setRole] = useState(null);
-  const pathname = usePathname(); // Detecta cambios en la URL
 
   useEffect(() => {
     // Obtener carrito (esto depende de cómo lo manejes)
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(storedCart);
-
-    setRole(getUserRole);
-  }, [pathname]);
+    
+  }, []);
 
   return (
     <html lang="en">
       <body>
-        <Navbar cart={cart} role={role} />
+        <Navbar cart={cart} />
         <main className="container mx-auto p-4">{children}</main>
       </body>
     </html>

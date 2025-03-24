@@ -16,12 +16,17 @@ export default function CreateUser() {
 
    useEffect(() => {
       const token = getUserRole();
-  
-      if (!token) {
-        router.push("/login");
-      } else {
-        token === 'admin' ? setIsAuthenticated(true) : null
+
+      if (token === 'admin') {
+        setIsAuthenticated(true) 
+      } 
+      else if (token === 'user') {
+        router.push("/");
       }
+      else {
+        router.push("/login");
+      }
+  
     }, []);
 
     if (!isAuthenticated) {

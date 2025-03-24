@@ -21,7 +21,7 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    const token = getUserRole;
+    const token = getUserRole();
 
     if (token === 'admin') {
       setIsAuthenticated(true) 

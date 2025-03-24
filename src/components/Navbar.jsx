@@ -3,20 +3,24 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import getUserRole from "@/utils/auth";
 
-export default function Navbar({ cart, role }) {
+export default function Navbar({ cart }) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
- // const [role, setRole] = useState(null);
+  const [role, setRole] = useState(null);
+  const pathname = usePathname(); // Detecta cambios en la URL
 
     useEffect(() => {
-      const a = 0;
-    }, []);
+      setRole(getUserRole);
+      
+    }, [pathname]);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     localStorage.removeItem("token"); // Si guardaste el token aquí
-    router.push("/login"); // Redirigir al login
+    setRole(false);
   };
 
   const handleLogin = () => {
@@ -51,7 +55,7 @@ export default function Navbar({ cart, role }) {
           } {/* Solo admins ven esto */}
         </div>
         {/* Botón de logout si hay usuario */}
-        {role ? (
+        { role ? (
           <button onClick={handleLogout} className="bg-red-600 px-3 py-1 rounded-md">
             Cerrar sesión
           </button>
