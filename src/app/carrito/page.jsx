@@ -51,7 +51,7 @@ export default function Carrito() {
   };
 
   return (
-    <div className="m-5">
+    <div className="mx-5 mt-17 h-full flex-grow">
       <h1>Tu Carrito 🛍️</h1>
       {carrito.length === 0 ? (
         <p>El carrito está vacío.</p>

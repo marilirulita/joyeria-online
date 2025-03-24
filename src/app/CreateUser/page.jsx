@@ -41,7 +41,7 @@ export default function CreateUser() {
         email,
         password,
         role,
-        adminToken: token, // Asegúrate de proteger esto
+        adminToken: token,
       }),
     });
 
