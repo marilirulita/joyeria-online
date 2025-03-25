@@ -40,11 +40,14 @@ export const CarritoProvider = ({ children }) => {
 
   // modifica cantidad de elementos
   const modificarCantidad = (id, nuevaCantidad) => {
-    const nuevoCarrito = carrito.map((item) =>
-      item.id === id ? { ...item, cantidad: nuevaCantidad } : item
-    );
-    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    setCarrito(nuevoCarrito);
+    if (nuevaCantidad > 0) {
+      const nuevoCarrito = carrito.map((item) =>
+        item.id === id ? { ...item, cantidad: nuevaCantidad } : item
+      );
+      localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
+      setCarrito(nuevoCarrito);
+    }
+    
   };
 
   // borrar carrito despues de comprar
@@ -53,8 +56,12 @@ export const CarritoProvider = ({ children }) => {
     setCarrito([]);
   }
 
+  const getTotalPrice = () => {
+    return carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
+  }
+
   return (
-    <CarritoContext.Provider value={{ carrito, agregarAlCarrito, eliminarDelCarrito, modificarCantidad, borrarCarrito }}>
+    <CarritoContext.Provider value={{ carrito, agregarAlCarrito, eliminarDelCarrito, modificarCantidad, borrarCarrito, getTotalPrice }}>
       {children}
     </CarritoContext.Provider>
   );

@@ -23,13 +23,11 @@ export default function AdminPage() {
   useEffect(() => {
     const token = getUserRole();
 
-    if (token === 'admin') {
-      setIsAuthenticated(true) 
-    } 
-    else if (token === 'user') {
+    if (token === "admin") {
+      setIsAuthenticated(true);
+    } else if (token === "user") {
       router.push("/");
-    }
-    else {
+    } else {
       router.push("/login");
     }
 
@@ -49,58 +47,46 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 mt-17">
       <h1 className="text-3xl font-bold">Panel de Administración</h1>
       <p>Bienvenido al panel de administración.</p>
 
-{/* Sección de Ventas e Inventario*/}
-<div>
+      {/* Sección de Ventas e Inventario*/}
+      <div>
         <h2 className="text-xl font-semibold">Reportes de Ventas</h2>
         <ul>
-        {ventas.map((venta) => 
+          {ventas.map((venta) =>
             venta.productos.map((p) => (
               <li key={p.producto.id} className="border-b py-2">
-              {p.producto.nombre} - Cantidad: {p.cantidad} 
-            </li>
+                Producto: {p.producto.nombre} - Cantidad: {p.cantidad} - Total: ${venta.total} - Fecha: {new Date(venta.fecha).toLocaleDateString()}
+              </li>
             ))
           )}
-          {ventas.map((venta) => (
-            <li key={venta.id} className="border-b py-2">
-               Total: ${venta.total}
-            </li>
-          ))}
         </ul>
 
         <table>
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Total</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ventas.map((venta) => 
-            venta.productos.map((p) => (
-              <tr key={p.producto.id}>
-              <td>{p.producto.nombre}</td>
-              <td>{p.cantidad}</td>
-              </tr>
-            ))
-          )}
-          {ventas.map((venta) => (
-            <tr key={venta.id}>
-              <td></td>
-              <td></td>
-              <td>${venta.total.toFixed(2)}</td>
-              <td>{new Date(venta.fecha).toLocaleDateString()}</td>
-            </tr>    
-          ))}
-        </tbody>
-      </table>
-      
-      </div> 
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Total</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ventas.map((venta) =>
+              venta.productos.map((p) => (
+                <tr key={p.producto.id}>
+                  <td>{p.producto.nombre}</td>
+                  <td>{p.cantidad}</td>
+                  <td>${venta.total.toFixed(2)}</td>
+                  <td>{new Date(venta.fecha).toLocaleDateString()}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Sección de productos */}
       <div className="mb-6">
@@ -128,7 +114,6 @@ export default function AdminPage() {
           ))}
         </ul>
       </div>
-
     </div>
   );
 }
