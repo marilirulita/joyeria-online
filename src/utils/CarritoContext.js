@@ -12,14 +12,49 @@ export const CarritoProvider = ({ children }) => {
     setCarrito(carritoGuardado);
   }, []);
 
+  // para agregar elementos al carrito
   const agregarAlCarrito = (producto) => {
-    const nuevoCarrito = [...carrito, producto];
+    let nuevoCarrito = [];
+    // Verificar si el producto ya está en el carrito
+    const productoExistente = carrito.find((item) => item.id === producto.id);
+
+    if (productoExistente) {
+      // Si el producto ya está en el carrito, aumentar la cantidad
+      productoExistente.cantidad += 1;
+      nuevoCarrito = [...carrito];
+    } else {
+      // Si no está en el carrito, agregarlo con cantidad 1
+      nuevoCarrito = [...carrito, { ...producto, cantidad: 1 }];
+    }
+
     setCarrito(nuevoCarrito);
     localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
   };
 
+  // elimina un elemento del carrito
+  const eliminarDelCarrito = (id) => {
+    const nuevoCarrito = carrito.filter((item) => item.id !== id);
+    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
+    setCarrito(nuevoCarrito);
+  };
+
+  // modifica cantidad de elementos
+  const modificarCantidad = (id, nuevaCantidad) => {
+    const nuevoCarrito = carrito.map((item) =>
+      item.id === id ? { ...item, cantidad: nuevaCantidad } : item
+    );
+    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
+    setCarrito(nuevoCarrito);
+  };
+
+  // borrar carrito despues de comprar
+  const borrarCarrito = () => {
+    localStorage.removeItem("carrito");
+    setCarrito([]);
+  }
+
   return (
-    <CarritoContext.Provider value={{ carrito, agregarAlCarrito }}>
+    <CarritoContext.Provider value={{ carrito, agregarAlCarrito, eliminarDelCarrito, modificarCantidad, borrarCarrito }}>
       {children}
     </CarritoContext.Provider>
   );

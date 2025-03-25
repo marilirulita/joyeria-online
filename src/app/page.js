@@ -33,23 +33,7 @@ export default function Home() {
   };
 
   const handleAgregarAlCarrito = (producto) => {
-    
     agregarAlCarrito(producto);
-    const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
-  
-    // Verificar si el producto ya está en el carrito
-    const productoExistente = carritoActual.find((item) => item.id === producto.id);
-  
-    if (productoExistente) {
-      // Si el producto ya está en el carrito, aumentar la cantidad
-      productoExistente.cantidad += 1;
-    } else {
-      // Si no está en el carrito, agregarlo con cantidad 1
-      carritoActual.push({ ...producto, cantidad: 1 });
-    }
-
-    localStorage.setItem("carrito", JSON.stringify(carritoActual));
-
     mostrarToast(producto.id);
   };
 

@@ -1,28 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useState } from "react";
+import { useContext } from "react";
+import { CarritoContext } from "@/utils/CarritoContext"; 
 
 export default function Carrito() {
-  const [carrito, setCarrito] = useState([]);
   const [comprando, setComprando] = useState(false);
-
-  useEffect(() => {
-    const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
-    setCarrito(carritoGuardado);
-  }, []);
-
-  const eliminarDelCarrito = (id) => {
-    const nuevoCarrito = carrito.filter((item) => item.id !== id);
-    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    setCarrito(nuevoCarrito);
-  };
-
-  const modificarCantidad = (id, nuevaCantidad) => {
-    const nuevoCarrito = carrito.map((item) =>
-      item.id === id ? { ...item, cantidad: nuevaCantidad } : item
-    );
-    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-    setCarrito(nuevoCarrito);
-  };
+  const { carrito, eliminarDelCarrito, modificarCantidad, borrarCarrito } = useContext(CarritoContext);
 
   const comprar = async () => {
     setComprando(true);
@@ -38,8 +22,7 @@ export default function Carrito() {
 
       if (res.ok) {
         alert("Compra realizada con éxito 🎉");
-        localStorage.removeItem("carrito");
-        setCarrito([]);
+        borrarCarrito();
       } else {
         alert("Hubo un problema al procesar la compra." + data.error);
       }
