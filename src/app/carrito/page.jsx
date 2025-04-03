@@ -1,97 +1,52 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState} from "react";
+import { initMercadoPago } from "@mercadopago/sdk-react";
+import Payment from "@/components/Payment";
+import Checkout from "@/components/Checkout";
+import InternalProvider from "@/utils/ContextProvider";
 import { useContext } from "react";
-import { CarritoContext } from "@/utils/CarritoContext"; 
-import { FaTrash } from "react-icons/fa";
+import { CarritoContext } from "@/utils/CarritoContext";
 
-export default function Carrito() {
-  const [comprando, setComprando] = useState(false);
-  const { carrito, eliminarDelCarrito, modificarCantidad, borrarCarrito, getTotalPrice } = useContext(CarritoContext);
+// REPLACE WITH YOUR PUBLIC KEY AVAILABLE IN: https://developers.mercadopago.com/panel
+initMercadoPago('APP_USR-81fb5b83-1e9f-401a-82be-8f49799a3b4a', { locale: 'en' });
 
-  const comprar = async () => {
-    setComprando(true);
+const App = () => {
+  const [preferenceId, setPreferenceId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-    try {
-      const res = await fetch("/api/ventas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productos: carrito }),
-      });
+  const { carrito } = useContext(CarritoContext);
 
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Compra realizada con éxito 🎉");
-        borrarCarrito();
-      } else {
-        alert("Hubo un problema al procesar la compra." + data.error);
-      }
-    } catch (error) {
-      console.error("Error al comprar:", error);
-    }
-
-    setComprando(false);
+  const handleClick = () => {
+    setIsLoading(true);
+    fetch("/api/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(carrito),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((preference) => {
+        setPreferenceId(preference.preferenceId);
+      })
+      .catch((error) => {
+        console.error(error);
+      }).finally(() => {
+        setIsLoading(false);
+      })
   };
 
   return (
-    <div className="container mx-auto p-6 mt-17">
-      <h1 className="text-3xl font-bold mb-6">Tu Carrito de Compras 🛍️</h1>
-      {carrito.length === 0 ? (
-        <p className="text-gray-600">Tu carrito está vacío.</p>
-      ) : (
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="md:col-span-2">
-            {carrito.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center justify-between border-b py-4"
-              >
-                <img
-                  src={item.imagen}
-                  alt={item.nombre}
-                  className="w-20 h-20 object-cover rounded"
-                />
-                <div className="flex-1 px-4">
-                  <h2 className="text-lg font-semibold">{item.nombre}</h2>
-                  <p className="text-gray-600">${item.precio.toFixed(2)}</p>
-                  <div className="flex items-center mt-2">
-                    <button
-                      onClick={() => modificarCantidad(item.id, item.cantidad - 1)}
-                      className="px-3 py-1 bg-gray-200 rounded"
-                    >
-                      -
-                    </button>
-                    <span className="mx-2">{item.cantidad}</span>
-                    <button
-                      onClick={() => modificarCantidad(item.id, item.cantidad + 1)}
-                      className="px-3 py-1 bg-gray-200 rounded"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                <button
-                  onClick={() => eliminarDelCarrito(item.id)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <FaTrash size={20} />
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Resumen del Pedido</h2>
-            <p className="text-lg font-bold">Total: ${getTotalPrice().toFixed(2)}</p>
-            {carrito.length > 0 && (
-        <button className="w-full mt-4 bg-blue-500 text-white py-2 rounded hover:bg-blue-600" onClick={comprar} disabled={comprando}>
-          {comprando ? "Procesando..." : "Comprar"}
-        </button>
-      )}
-          </div>
-        </div>
-      )}
-    </div>
+    <InternalProvider context={{ preferenceId, isLoading, setIsLoading }}>
+      <div>
+        <Checkout onClick={handleClick} description/>
+        <Payment />
+      </div>
+    </InternalProvider>
   );
-}
+};
+
+export default App;

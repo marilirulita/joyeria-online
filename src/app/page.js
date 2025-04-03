@@ -44,13 +44,13 @@ export default function Home() {
   return (
     <>
       {/* Header con anuncio */}
-      <header className="bg-blue-600 text-white p-4 text-center mt-17">
+      <header className="bg-blue-600 text-white p-4 text-center">
         <h1 className="text-3xl font-bold">Bienvenido a nuestra joyería</h1>
         <p>¡Compra ahora con envío gratis en pedidos mayores a $500!</p>
       </header>
 
       {/* Sección de productos */}
-      <main className="container mx-auto py-10 flex-grow">
+      <div className="container mx-auto py-10 flex-grow">
         <h2 className="text-2xl font-bold text-center mb-5">Nuestros Productos</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {productos.map((producto) => (
@@ -78,7 +78,7 @@ export default function Home() {
           </div>
         ))}
       </div>
-      </main>
+      </div>
 
     </>
   );
