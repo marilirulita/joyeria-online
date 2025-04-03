@@ -4,6 +4,8 @@ import { Wallet } from "@mercadopago/sdk-react";
 import { Context } from "@/utils/ContextProvider";
 import { CarritoContext } from "@/utils/CarritoContext";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import getUserRole from "@/utils/auth";
 
 const Payment = () => {
   const { preferenceId, isLoading, setIsLoading } = React.useContext(Context);
@@ -11,6 +13,7 @@ const Payment = () => {
   const { carrito, getTotalPrice, borrarCarrito } = React.useContext(CarritoContext);
 
   const [isReady, setIsReady] = React.useState(false);
+  const [role, setRole] = React.useState(null);
     const router = useRouter();
 
   const paymentClass = classnames("payment-form dark", {
@@ -20,6 +23,11 @@ const Payment = () => {
   const handleOnReady = () => {
     setIsReady(true);
   };
+
+  useEffect(() => {
+      setRole(getUserRole);
+      
+    }, []);
 
   // cuando sea pago en sucursal
   const comprar = async () => {
@@ -93,13 +101,15 @@ const Payment = () => {
           </div>
           <div className="payment-details">
             <div className="form-group col-sm-12">
-              <button
-                   className="w-full mt-4 bg-green-500 text-white py-2 rounded hover:bg-green-50-600"
-                   onClick={comprar}
-                   disabled={isLoading}
-                 >
-                   {isLoading ? "Procesando..." : "Pago en Sucursal"}
-                 </button>
+            {role === "admin" && (
+            <button
+            className="w-full mt-4 bg-green-500 text-white py-2 rounded hover:bg-green-50-600"
+            onClick={comprar}
+            disabled={isLoading}
+          >
+            {isLoading ? "Procesando..." : "Pago en Sucursal"}
+          </button>
+          )}
                  {renderCheckoutButton(preferenceId)}
             </div>
           </div>

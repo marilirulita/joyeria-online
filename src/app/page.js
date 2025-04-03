@@ -66,9 +66,13 @@ export default function Home() {
             <p className="text-gray-700">{producto.descripcion}</p>
             <p className="text-gray-800 font-bold">${producto.precio} MXN</p>
             <button 
-            className="bg-green-500 text-white px-4 py-2 mt-2 w-full rounded"
-            onClick={() => handleAgregarAlCarrito(producto)}>
-              Agregar al carrito 🛒
+            className={`px-4 py-2 text-white font-bold rounded mt-2 w-full
+              ${producto.stock <= 0 ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 hover:bg-green-700"}
+            `}
+            onClick={() => handleAgregarAlCarrito(producto)}
+            disabled={producto.stock <= 0}
+            >
+              {producto.stock <= 0 ? "Sin stock" : "Agregar al carrito 🛒"}
             </button>
             <button 
             className="bg-gray-500 text-white px-4 py-2 mt-2 w-full rounded"

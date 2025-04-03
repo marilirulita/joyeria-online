@@ -45,8 +45,6 @@ export default function Navbar() {
         {/* Menú para pantallas grandes */}
         <div className="hidden md:flex space-x-6">
           <Link href="/">Inicio</Link>
-          <Link href="/productos">Productos</Link>
-          
           {role === "admin" && (
             <div className="md:flex space-x-6">
               <Link className="" href="/admin">

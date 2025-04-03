@@ -52,40 +52,30 @@ export default function AdminPage() {
       <p>Bienvenido al panel de administración.</p>
 
       {/* Sección de Ventas e Inventario*/}
-      <div>
+      <div className="overflow-x-auto w-full p-4">
         <h2 className="text-xl font-semibold">Reportes de Ventas</h2>
-        <ul>
-          {ventas.map((venta) =>
+        <table className="w-full border-collapse bg-white shadow-md rounded-lg">
+        <thead>
+          <tr className="bg-gray-800 text-white">
+            <th className="p-3 text-left">Nombre del Producto</th>
+            <th className="p-3 text-left">Cantidad</th>
+            <th className="p-3 text-left">Total</th>
+            <th className="p-3 text-left">Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ventas.map((venta) => (
             venta.productos.map((p) => (
-              <li key={p.producto.id} className="border-b py-2">
-                Producto: {p.producto.nombre} - Cantidad: {p.cantidad} - Total: ${venta.total} - Fecha: {new Date(venta.fecha).toLocaleDateString()}
-              </li>
+              <tr key={p.producto.id} className="border-b hover:bg-gray-100">
+                <td className="p-3">{p.producto.nombre}</td>
+              <td className="p-3">{p.cantidad}</td>
+              <td className="p-3">${venta.total.toFixed(2)}</td>
+              <td className="p-3">{new Date(venta.fecha).toLocaleDateString()}</td>
+              </tr>
             ))
-          )}
-        </ul>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Cantidad</th>
-              <th>Total</th>
-              <th>Fecha</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ventas.map((venta) =>
-              venta.productos.map((p) => (
-                <tr key={p.producto.id}>
-                  <td>{p.producto.nombre}</td>
-                  <td>{p.cantidad}</td>
-                  <td>${venta.total.toFixed(2)}</td>
-                  <td>{new Date(venta.fecha).toLocaleDateString()}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
       </div>
 
       {/* Sección de productos */}
