@@ -1,11 +1,15 @@
 import React from "react";
 import classnames from "classnames";
-import { Wallet } from "@mercadopago/sdk-react";
+import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import { Context } from "@/utils/ContextProvider";
 import { CarritoContext } from "@/utils/CarritoContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import getUserRole from "@/utils/auth";
+
+  // REPLACE WITH YOUR PUBLIC KEY AVAILABLE IN: https://developers.mercadopago.com/panel
+  const PUBLIC_KEY = process.env.NEXT_PUBLIC_MP_PUBLIC_KEY;
+  initMercadoPago(PUBLIC_KEY, { locale: 'en' });
 
 const Payment = () => {
   const { preferenceId, isLoading, setIsLoading } = React.useContext(Context);

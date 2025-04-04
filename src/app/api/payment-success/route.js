@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 
+const ACCES_TOKEN = process.env.MP_ACCESS_TOKEN;
+
 const client = new MercadoPagoConfig({
-  accessToken:
-    "APP_USR-4981624903862891-032701-64e58acf975a4e079eaf04b46b6d8d5b-2356765134",
+  accessToken: ACCES_TOKEN,
 });
 
 export async function GET(req) {

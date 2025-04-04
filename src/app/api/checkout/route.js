@@ -1,14 +1,17 @@
 import { NextResponse } from "next/server";
 import { MercadoPagoConfig, Preference } from "mercadopago";
 
+const ACCES_TOKEN = process.env.MP_ACCESS_TOKEN;
 const client = new MercadoPagoConfig({
-  accessToken:
-    "APP_USR-4981624903862891-032701-64e58acf975a4e079eaf04b46b6d8d5b-2356765134",
+  accessToken: ACCES_TOKEN
 });
 
 export async function POST(req) {
   try {
     const body = await req.json();
+
+    console.log(process.env.MP_ACCESS_TOKEN)
+    console.log(process.env.ADMIN_SECRET)
 
     const items = body.map((producto) => ({
       title: producto.nombre,
