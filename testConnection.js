@@ -11,7 +11,7 @@ async function main() {
       email: "dany@joyeria.com",
       password: "Admin2025",
       role: "admin",
-      adminToken: process.env.ADMIN_SECRET,
+      adminToken: "975c60456a92c092ac6d3bd9018b22a2",
     }),
   });
 
