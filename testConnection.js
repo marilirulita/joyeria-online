@@ -1,17 +1,17 @@
 import fetch from "node-fetch";
 
 async function main() {
-  const response = await fetch("http://localhost:3000/api/auth/register", {
+  const response = await fetch("https://joyeria-online-steel.vercel.app/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      nombre: "Admin Bautista",
-      email: "admin@joyeria.com",
+      nombre: "Admin Dany",
+      email: "dany@joyeria.com",
       password: "Admin2025",
       role: "admin",
-      adminToken: "975c60456a92c092ac6d3bd9018b22a2",
+      adminToken: process.env.ADMIN_SECRET,
     }),
   });
 
