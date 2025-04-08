@@ -10,7 +10,7 @@ Una aplicación completa para ventas en línea de joyería, con integración de 
 
 ## 📽️ Video de demostración
 
-📺 [Cómo utilizar la aplicación](https://link-al-video.com)
+[![Demo del proyecto](https://img.youtube.com/vi/r9ztWeVUgIs/0.jpg)](https://www.youtube.com/watch?v=r9ztWeVUgIs)
 
 ## 🚀 Tecnologías utilizadas
 
